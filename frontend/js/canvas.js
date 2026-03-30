@@ -388,6 +388,11 @@ const CanvasRenderer = {
     return this.scale;
   },
 
+  // Set the color palette
+  setPalette(palette) {
+    PALETTE = palette;
+  },
+
   // Get canvas size
   getSize() {
     return { width: this.width, height: this.height };
@@ -395,4 +400,4 @@ const CanvasRenderer = {
 };
 
 // Global palette (will be set by main.js)
-let PALETTE = [];
+let PALETTE = null;

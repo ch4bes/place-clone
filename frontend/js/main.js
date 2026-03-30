@@ -58,12 +58,13 @@ const App = {
       UI.init();
       console.log('🎨 UI initialized');
 
-      // Initialize canvas
-      const canvasElement = document.getElementById('place-canvas');
-      CanvasRenderer.init(canvasElement);
-      CanvasRenderer.setTargetScale(1);
-      this.canvasInitialized = true;
-      console.log('🖼️ Canvas initialized');
+// Initialize canvas
+const canvasElement = document.getElementById('place-canvas');
+CanvasRenderer.init(canvasElement);
+CanvasRenderer.setPalette(PALETTE); // Pass the palette to canvas renderer
+CanvasRenderer.setTargetScale(1);
+this.canvasInitialized = true;
+console.log('🖼️ Canvas initialized');
 
       // Set up canvas click handler
       UI.setupCanvasClick();

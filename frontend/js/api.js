@@ -4,21 +4,12 @@
  */
 
 const CONFIG = {
-  BACKEND_URL: 'https://place-backend-xyz.onrender.com',
-  WS_URL: 'wss://place-backend-xyz.onrender.com',
+  BACKEND_URL: 'https://place-backend-lpwc.onrender.com',
+  WS_URL: 'wss://place-backend-lpwc.onrender.com',
   CANVAS_SIZE: 256,
   COOLDOWN_SECONDS: 120,
   ACTIVITY_FEED_DESKTOP: 30,
   ACTIVITY_FEED_MOBILE: 15,
-};
-
-// Firebase Configuration
-const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyDv4QzSGejInheb0QKrFx1jekuXXA-UOzg",
-  authDomain: "place-clone-b1d35.firebaseapp.com",
-  databaseURL: "https://place-clone-b1d35-default-rtdb.firebaseio.com",
-  projectId: "place-clone-b1d35",
-  storageBucket: "place-clone-b1d35.firebasestorage.app",
 };
 
 // Firebase Configuration
