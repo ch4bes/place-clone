@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: place-backend
+    env: node
+    region: us-east-1
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: FIREBASE_API_KEY
+        sync: false
+      - key: FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: FIREBASE_DATABASE_URL
+        sync: false
+      - key: FIREBASE_PROJECT_ID
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://yourusername.neocities.org
+      - key: BOT_LOG_RETENTION_DAYS
+        value: "7"
+      - key: AUTO_CLEANUP_ENABLED
+        value: "true"
+    disk:
+      name: logs
+      mountPath: /app/logs
+      sizeGB: 1
+    domains:
+      - domain: place-backend.onrender.com
+        branch: main

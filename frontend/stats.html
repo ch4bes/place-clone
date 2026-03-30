@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLACE - Statistics</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .stats-header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #333;
+    }
+    .stats-header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .stats-header p {
+      color: #888;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .stat-card {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+    }
+    .stat-card h3 {
+      color: #888;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+    .stat-card .value {
+      font-size: 42px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .stat-card .subtext {
+      color: #666;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .chart-container {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+    .chart-container h3 {
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .color-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: #252525;
+      border-radius: 8px;
+    }
+    .color-swatch {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 2px solid #333;
+    }
+    .color-info {
+      flex: 1;
+    }
+    .color-name {
+      font-weight: bold;
+      color: #fff;
+      font-size: 14px;
+    }
+    .color-count {
+      color: #888;
+      font-size: 12px;
+    }
+    .color-bar {
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+    .color-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+    .contributors-list {
+      background: #1a1a1a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .contributors-list h3 {
+      padding: 20px;
+      margin: 0;
+      background: #252525;
+      color: #fff;
+    }
+    .contributor-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      border-bottom: 1px solid #333;
+      transition: background 0.2s;
+    }
+    .contributor-item:hover {
+      background: #252525;
+    }
+    .contributor-item:last-child {
+      border-bottom: none;
+    }
+    .contributor-rank {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+      margin-right: 15px;
+    }
+    .rank-1 { background: #FFD700; color: #000; }
+    .rank-2 { background: #C0C0C0; color: #000; }
+    .rank-3 { background: #CD7F32; color: #000; }
+    .rank-other { background: #333; color: #fff; }
+    .contributor-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    .contributor-name {
+      font-weight: bold;
+      color: #fff;
+    }
+    .contributor-pixels {
+      color: #888;
+      font-size: 14px;
+    }
+    .contributor-count {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0083C7;
+    }
+    .bot-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .bot-stat-item {
+      background: #252525;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .bot-stat-value {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .bot-stat-label {
+      color: #888;
+      font-size: 12px;
+    }
+    .flagged { color: #E5D900; }
+    .banned { color: #E50000; }
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #0083C7;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    .last-updated {
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="stats-container">
+    <a href="index.html" class="back-link">← Back to Canvas</a>
+    
+    <header class="stats-header">
+      <h1>PLACE Statistics</h1>
+      <p>Real-time canvas activity and community contributions</p>
+    </header>
+
+    <div id="loading" class="loading">
+      <p>Loading statistics...</p>
+    </div>
+
+    <div id="stats-content" style="display: none;">
+      <!-- Overview Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Pixels</h3>
+          <div class="value" id="stat-total-pixels">0</div>
+          <div class="subtext" id="stat-canvas-completion">0% of canvas</div>
+        </div>
+        <div class="stat-card">
+          <h3>Today's Pixels</h3>
+          <div class="value" id="stat-today-pixels">0</div>
+          <div class="subtext">Last 24 hours</div>
+        </div>
+        <div class="stat-card">
+          <h3>Active Users</h3>
+          <div class="value" id="stat-active-users">0</div>
+          <div class="subtext">Last 24 hours</div>
+        </div>
+        <div class="stat-card">
+          <h3>Total Sessions</h3>
+          <div class="value" id="stat-total-sessions">0</div>
+          <div class="subtext">All time</div>
+        </div>
+      </div>
+
+      <!-- Color Distribution -->
+      <div class="chart-container">
+        <h3>🎨 Color Distribution</h3>
+        <div class="color-grid" id="color-grid">
+          <!-- Colors will be added by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Top Contributors -->
+      <div class="contributors-list">
+        <h3>🏆 Top Contributors</h3>
+        <div id="contributors-list">
+          <!-- Contributors will be added by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Bot Detection Stats -->
+      <div class="chart-container" style="margin-top: 30px;">
+        <h3>🤖 Bot Detection</h3>
+        <div class="bot-stats">
+          <div class="bot-stat-item">
+            <div class="bot-stat-value flagged" id="stat-flagged">0</div>
+            <div class="bot-stat-label">Flagged Sessions</div>
+          </div>
+          <div class="bot-stat-item">
+            <div class="bot-stat-value banned" id="stat-banned">0</div>
+            <div class="bot-stat-label">Banned Sessions</div>
+          </div>
+          <div class="bot-stat-item">
+            <div class="bot-stat-value" style="color: #02BE01;" id="stat-detection-rate">0%</div>
+            <div class="bot-stat-label">Detection Rate</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="last-updated">Last updated: <span id="last-updated">-</span></p>
+    </div>
+  </div>
+
+  <script>
+    const BACKEND_URL = 'https://place-backend-xyz.onrender.com';
+    const PALETTE = [
+      '#FFFFFF', '#E4E4E4', '#888888', '#222222',
+      '#FFA7D1', '#E50000', '#E59500', '#A06A42',
+      '#E5D900', '#94E044', '#02BE01', '#00D3DD',
+      '#0083C7', '#0000EA', '#CF6EE4', '#820080'
+    ];
+    const COLOR_NAMES = [
+      'White', 'Light Gray', 'Gray', 'Black',
+      'Pink', 'Red', 'Orange', 'Brown',
+      'Yellow', 'Lime', 'Green', 'Cyan',
+      'Blue', 'Dark Blue', 'Magenta', 'Purple'
+    ];
+
+    async function loadStats() {
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/stats`);
+        const data = await response.json();
+
+        if (data.success) {
+          renderStats(data.stats);
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('stats-content').style.display = 'block';
+          document.getElementById('last-updated').textContent = new Date(data.timestamp).toLocaleString();
+        }
+      } catch (error) {
+        console.error('Error loading stats:', error);
+        document.getElementById('loading').innerHTML = '<p>Error loading statistics. Please try again later.</p>';
+      }
+    }
+
+    function renderStats(stats) {
+      // Overview stats
+      document.getElementById('stat-total-pixels').textContent = stats.totalPixels.toLocaleString();
+      document.getElementById('stat-today-pixels').textContent = stats.todayPixels.toLocaleString();
+      document.getElementById('stat-active-users').textContent = stats.activeSessions24h.toLocaleString();
+      document.getElementById('stat-total-sessions').textContent = stats.totalSessions.toLocaleString();
+      document.getElementById('stat-canvas-completion').textContent = 
+        `${stats.canvasCompletion.percentage}% of canvas (${stats.canvasCompletion.totalPixels.toLocaleString()}/${stats.canvasCompletion.canvasSize.toLocaleString()})`;
+
+      // Color distribution
+      renderColorDistribution(stats.colorDistribution);
+
+      // Top contributors
+      renderContributors(stats.topContributors);
+
+      // Bot detection stats
+      document.getElementById('stat-flagged').textContent = stats.botDetection.flagged.toLocaleString();
+      document.getElementById('stat-banned').textContent = stats.botDetection.banned.toLocaleString();
+      
+      const totalFlagged = stats.botDetection.flagged + stats.botDetection.banned;
+      const detectionRate = stats.totalPixels > 0 
+        ? ((totalFlagged / stats.totalSessions) * 100).toFixed(1) 
+        : 0;
+      document.getElementById('stat-detection-rate').textContent = `${detectionRate}%`;
+    }
+
+    function renderColorDistribution(distribution) {
+      const grid = document.getElementById('color-grid');
+      grid.innerHTML = '';
+
+      const total = Object.values(distribution).reduce((sum, count) => sum + count, 0);
+
+      for (let i = 0; i < 16; i++) {
+        const count = distribution[i] || 0;
+        const percentage = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+
+        const item = document.createElement('div');
+        item.className = 'color-item';
+        item.innerHTML = `
+          <div class="color-swatch" style="background: ${PALETTE[i]}"></div>
+          <div class="color-info">
+            <div class="color-name">${COLOR_NAMES[i]}</div>
+            <div class="color-count">${count.toLocaleString()} pixels (${percentage}%)</div>
+            <div class="color-bar">
+              <div class="color-bar-fill" style="width: ${percentage}%; background: ${PALETTE[i]}"></div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(item);
+      }
+    }
+
+    function renderContributors(contributors) {
+      const list = document.getElementById('contributors-list');
+      list.innerHTML = '';
+
+      if (contributors.length === 0) {
+        list.innerHTML = '<p style="padding: 20px; color: #888; text-align: center;">No contributors yet. Be the first!</p>';
+        return;
+      }
+
+      contributors.forEach((contributor, index) => {
+        const item = document.createElement('div');
+        item.className = 'contributor-item';
+        
+        const rank = index + 1;
+        const rankClass = rank <= 3 ? `rank-${rank}` : 'rank-other';
+        const rankText = rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : rank;
+
+        item.innerHTML = `
+          <div class="contributor-info">
+            <div class="contributor-rank ${rankClass}">${rankText}</div>
+            <div>
+              <div class="contributor-name">${escapeHtml(contributor.username)}</div>
+              <div class="contributor-pixels">pixels placed</div>
+            </div>
+          </div>
+          <div class="contributor-count">${contributor.pixels.toLocaleString()}</div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text || 'Anonymous';
+      return div.innerHTML;
+    }
+
+    // Load stats on page load
+    loadStats();
+
+    // Auto-refresh every 30 seconds
+    setInterval(loadStats, 30000);
+  </script>
+</body>
+</html>
