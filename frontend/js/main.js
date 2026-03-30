@@ -54,21 +54,21 @@ const App = {
       // Set up WebSocket handlers
       this.setupWebSocketHandlers();
 
-      // Initialize UI
-      UI.init();
-      console.log('🎨 UI initialized');
-
-// Initialize canvas
-const canvasElement = document.getElementById('place-canvas');
-CanvasRenderer.init(canvasElement);
-CanvasRenderer.setPalette(PALETTE); // Pass the palette to canvas renderer
-CanvasRenderer.setTargetScale(1);
-this.canvasInitialized = true;
-console.log('🖼️ Canvas initialized');
-
-      // Set up canvas click handler
-      UI.setupCanvasClick();
-      console.log('👆 Canvas click handler set up');
+       // Initialize UI
+       UI.init();
+       console.log('🎨 UI initialized');
+ 
+       // Initialize canvas
+       const canvasElement = document.getElementById('place-canvas');
+       CanvasRenderer.init(canvasElement);
+       CanvasRenderer.setPalette(PALETTE); // Pass the palette to canvas renderer
+       CanvasRenderer.setTargetScale(1);
+       this.canvasInitialized = true;
+       console.log('🖼️ Canvas initialized');
+ 
+       // Set up canvas click handler
+       UI.setupCanvasClick();
+       console.log('👆 Canvas click handler set up');
 
       // Set up coordinate tracking
       this.setupCoordinateTracking();
