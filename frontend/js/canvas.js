@@ -11,6 +11,7 @@ const CanvasRenderer = {
   width: 256,
   height: 256,
   pixelData: null, // Uint8Array of color indices
+  palette: null,
   scale: 1,
   offsetX: 0,
   offsetY: 0,
@@ -233,7 +234,7 @@ const CanvasRenderer = {
 
   // Draw single pixel on offscreen canvas
   drawPixelOffscreen(x, y, colorIndex) {
-    const color = PALETTE[colorIndex];
+    const color = this.palette[colorIndex];
     this.offscreenCtx.fillStyle = color;
     this.offscreenCtx.fillRect(x, y, 1, 1);
   },
@@ -390,7 +391,7 @@ const CanvasRenderer = {
 
   // Set the color palette
   setPalette(palette) {
-    PALETTE = palette;
+    this.palette = palette;
   },
 
   // Get canvas size
@@ -398,6 +399,3 @@ const CanvasRenderer = {
     return { width: this.width, height: this.height };
   },
 };
-
-// Global palette (will be set by main.js)
-let PALETTE = null;
