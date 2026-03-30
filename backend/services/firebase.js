@@ -1,5 +1,4 @@
 const admin = require('firebase-admin');
-const path = require('path');
 
 let db = null;
 
@@ -20,8 +19,12 @@ function initializeFirebase() {
 
   // Initialize Firebase app - for server-side access to Realtime Database
   if (admin.apps.length === 0) {
-    const serviceAccount = require(path.join(__dirname, '..', 'config', 'serviceAccountKey.json'));
-    
+    const serviceAccount = {
+      client_email: process.env.FIREBASE_CLIENT_EMAIL,
+      private_key: process.env.FIREBASE_PRIVATE_KEY,
+      project_id: process.env.FIREBASE_PROJECT_ID,
+    };
+
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
       databaseURL: firebaseConfig.databaseURL,
