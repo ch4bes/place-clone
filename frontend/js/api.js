@@ -12,6 +12,15 @@ const CONFIG = {
   ACTIVITY_FEED_MOBILE: 15,
 };
 
+// Firebase Configuration
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyDv4QzSGejInheb0QKrFx1jekuXXA-UOzg",
+  authDomain: "place-clone-b1d35.firebaseapp.com",
+  databaseURL: "https://place-clone-b1d35-default-rtdb.firebaseio.com",
+  projectId: "place-clone-b1d35",
+  storageBucket: "place-clone-b1d35.firebasestorage.app",
+};
+
 const API = {
   sessionId: null,
   ws: null,
