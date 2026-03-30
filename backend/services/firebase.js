@@ -17,25 +17,25 @@ function initializeFirebase() {
     throw new Error('Firebase configuration is incomplete. Check environment variables.');
   }
 
-  // Initialize Firebase app for server-side access
-  // When using firebase-admin, we need to either:
-  // 1. Use service account credentials (recommended for server-side)
-  // 2. Rely on application default credentials (when running in GCP)
-  // 3. For local/dev, we can initialize without explicit creds if GOOGLE_APPLICATION_CREDENTIALS is set
-  
-  // Since we're not in GCP and don't want to manage service account keys,
-  // we'll initialize with just the config - this works for client-side access
-  // but for admin operations we need proper auth. Let's check what we actually need.
-  
-  // Actually, for Realtime Database access via firebase-admin, we can initialize
-  // with just the database URL and it will work for basic operations
-  // The credential is mainly for authenticating as a service account
-  
-  if (admin.apps.length === 0) {
-    admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-      databaseURL: firebaseConfig.databaseURL,
-    });
+  // Initialize Firebase app - for server-side access to Realtime Database
+  // We'll use application default credentials which should work in most environments
+  // If that fails, we'll fall back to initializing without explicit credentials
+  try {
+    if (admin.apps.length === 0) {
+      admin.initializeApp({
+        credential: admin.credential.applicationDefault(),
+        databaseURL: firebaseConfig.databaseURL,
+      });
+    }
+  } catch (credError) {
+    // If application default credentials fail (common in local/dev),
+    // initialize without explicit credential - this works for basic DB operations
+    if (admin.apps.length === 0) {
+      admin.initializeApp({
+        databaseURL: firebaseConfig.databaseURL,
+      });
+    }
+    console.log('⚠️ Using Firebase init without explicit credentials');
   }
 
   db = admin.database();
