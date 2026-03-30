@@ -57,7 +57,7 @@ const App = {
        // Initialize UI
        UI.init();
        console.log('🎨 UI initialized');
- 
+
        // Initialize canvas
        const canvasElement = document.getElementById('place-canvas');
        CanvasRenderer.init(canvasElement);
@@ -65,7 +65,7 @@ const App = {
        CanvasRenderer.setTargetScale(1);
        this.canvasInitialized = true;
        console.log('🖼️ Canvas initialized');
- 
+
        // Set up canvas click handler
        UI.setupCanvasClick();
        console.log('👆 Canvas click handler set up');
