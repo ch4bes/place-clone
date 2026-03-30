@@ -2,7 +2,7 @@ services:
   - type: web
     name: place-backend
     env: node
-    region: us-east-1
+    region: us-west
     buildCommand: npm install
     startCommand: node server.js
     healthCheckPath: /api/health
@@ -20,7 +20,7 @@ services:
       - key: ADMIN_PASSWORD
         sync: false
       - key: CORS_ORIGIN
-        value: https://yourusername.neocities.org
+        value: https://chabes.neocities.org/place
       - key: BOT_LOG_RETENTION_DAYS
         value: "7"
       - key: AUTO_CLEANUP_ENABLED
