@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const path = require('path');
 
 let db = null;
 
@@ -18,9 +19,11 @@ function initializeFirebase() {
   }
 
   // Initialize Firebase app - for server-side access to Realtime Database
-  // Only requires databaseURL for admin SDK (credential is optional)
   if (admin.apps.length === 0) {
+    const serviceAccount = require(path.join(__dirname, '..', 'config', 'serviceAccountKey.json'));
+    
     admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
       databaseURL: firebaseConfig.databaseURL,
     });
   }

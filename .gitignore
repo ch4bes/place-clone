@@ -41,3 +41,4 @@ firebase-debug.log
 # Secrets (DO NOT COMMIT)
 serviceAccountKey.json
 *-private-key.json
+backend/config/*.json
