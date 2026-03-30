@@ -17,16 +17,11 @@ function initializeFirebase() {
     throw new Error('Firebase configuration is incomplete. Check environment variables.');
   }
 
-  // Initialize Firebase app for server access
-  // For server-side access to Realtime Database, we can initialize the app
-  // without explicit credentials when we only need to perform database operations
-  // that are allowed by Firebase Security Rules
-  // The admin SDK will work for basic operations even without explicit credentials
-  // as long as the database rules allow the operations we're performing
+  // Initialize Firebase app - for accessing Realtime Database
+  // We can initialize with just the config for basic database operations
+  // The security is handled by Firebase Rules, not admin credentials
   if (admin.apps.length === 0) {
-    admin.initializeApp({
-      databaseURL: firebaseConfig.databaseURL,
-    });
+    admin.initializeApp(firebaseConfig);
   }
 
   db = admin.database();
