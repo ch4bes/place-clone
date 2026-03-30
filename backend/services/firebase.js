@@ -18,23 +18,11 @@ function initializeFirebase() {
   }
 
   // Initialize Firebase app - for server-side access to Realtime Database
-  // Try application default credentials first, then fall back
-  try {
-    if (admin.apps.length === 0) {
-      admin.initializeApp({
-        credential: admin.credential.applicationDefault(),
-        databaseURL: firebaseConfig.databaseURL,
-      });
-    }
-  } catch (credError) {
-    // If application default credentials fail (common in local/dev),
-    // initialize without explicit credential - this works for basic DB operations
-    if (admin.apps.length === 0) {
-      admin.initializeApp({
-        databaseURL: firebaseConfig.databaseURL,
-      });
-    }
-    console.log('⚠️ Using Firebase init without explicit credentials');
+  // Only requires databaseURL for admin SDK (credential is optional)
+  if (admin.apps.length === 0) {
+    admin.initializeApp({
+      databaseURL: firebaseConfig.databaseURL,
+    });
   }
 
   db = admin.database();
