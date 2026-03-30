@@ -21,7 +21,7 @@ function initializeFirebase() {
   if (admin.apps.length === 0) {
     const serviceAccount = {
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
-      private_key: process.env.FIREBASE_PRIVATE_KEY,
+      private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
       project_id: process.env.FIREBASE_PROJECT_ID,
     };
 
