@@ -107,3 +107,5 @@ const Fingerprint = {
     return newId;
   },
 };
+
+window.Fingerprint = Fingerprint;
