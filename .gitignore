@@ -42,3 +42,4 @@ firebase-debug.log
 serviceAccountKey.json
 *-private-key.json
 backend/config/*.json
+neocities.config.js
