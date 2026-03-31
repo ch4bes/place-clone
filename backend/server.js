@@ -21,7 +21,9 @@ initializeFirebase();
 
 // Middleware
 const corsOrigin = process.env.CORS_ORIGIN || '*';
+console.log('CORS_ORIGIN env:', corsOrigin);
 const allowedOrigins = corsOrigin.split(',').map(o => o.trim());
+console.log('Allowed origins:', allowedOrigins);
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
