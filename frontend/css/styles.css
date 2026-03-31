@@ -340,7 +340,7 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  min-width: 200px;
+  min-width: 120px;
 }
 
 .palette-header {
@@ -354,7 +354,7 @@ html, body {
 .palette {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
+  gap: 4px;
 }
 
 .palette-swatch {
