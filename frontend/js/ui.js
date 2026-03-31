@@ -126,17 +126,27 @@ const UI = {
 
   // Set up zoom controls
   setupZoomControls() {
-    document.getElementById('zoom-in-btn').addEventListener('click', () => {
-      CanvasRenderer.zoomIn();
-    });
+    const zoomInBtn = document.getElementById('zoom-in-btn');
+    const zoomOutBtn = document.getElementById('zoom-out-btn');
+    const zoomResetBtn = document.getElementById('zoom-reset-btn');
+    
+    if (zoomInBtn) {
+      zoomInBtn.addEventListener('click', () => {
+        CanvasRenderer.zoomIn();
+      });
+    }
 
-    document.getElementById('zoom-out-btn').addEventListener('click', () => {
-      CanvasRenderer.zoomOut();
-    });
+    if (zoomOutBtn) {
+      zoomOutBtn.addEventListener('click', () => {
+        CanvasRenderer.zoomOut();
+      });
+    }
 
-    document.getElementById('zoom-reset-btn').addEventListener('click', () => {
-      CanvasRenderer.resetZoom();
-    });
+    if (zoomResetBtn) {
+      zoomResetBtn.addEventListener('click', () => {
+        CanvasRenderer.resetZoom();
+      });
+    }
   },
 
   // Set up activity feed

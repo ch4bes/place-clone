@@ -3,8 +3,6 @@
  * Generates unique device fingerprints for bot detection
  */
 
-console.log('Loading fp.js...');
-
 const Fingerprint = {
   // Generate canvas fingerprint
   async generateCanvasFingerprint() {

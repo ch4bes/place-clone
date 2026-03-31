@@ -270,6 +270,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .place-canvas {
@@ -336,11 +338,12 @@ html, body {
   grid-row: 2 / 3;
   background: #111;
   border-left: 1px solid #222;
-  padding: 15px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  min-width: 120px;
+  gap: 10px;
+  min-width: 80px;
+  max-width: 100px;
 }
 
 .palette-header {
@@ -359,9 +362,9 @@ html, body {
 
 .palette-swatch {
   aspect-ratio: 1;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   transition: transform 0.15s, border-color 0.15s;
   position: relative;
 }
@@ -417,7 +420,7 @@ html, body {
   grid-row: 2 / 3;
   background: #111;
   border-right: 1px solid #222;
-  width: 280px;
+  width: 180px;
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
