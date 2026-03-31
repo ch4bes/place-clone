@@ -21,11 +21,29 @@ initializeFirebase();
 
 // Middleware
 const corsOrigin = process.env.CORS_ORIGIN || '*';
-console.log('CORS_ORIGIN env:', corsOrigin);
-const allowedOrigins = corsOrigin.split(',').map(o => o.trim());
-console.log('Allowed origins:', allowedOrigins);
+let allowedOrigins = corsOrigin.split(',').map(o => o.trim());
+
+// Also add the domain without path
+const domainOrigins = allowedOrigins.map(o => {
+  try {
+    const url = new URL(o);
+    return url.origin;
+  } catch {
+    return o;
+  }
+});
+allowedOrigins = [...new Set([...allowedOrigins, ...domainOrigins])];
+
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+      callback(null, origin);
+    } else {
+      callback(null, true); // Allow for debugging
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
