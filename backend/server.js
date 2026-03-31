@@ -20,8 +20,10 @@ const server = http.createServer(app);
 initializeFirebase();
 
 // Middleware
+const corsOrigin = process.env.CORS_ORIGIN || '*';
+const allowedOrigins = corsOrigin.split(',').map(o => o.trim());
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
