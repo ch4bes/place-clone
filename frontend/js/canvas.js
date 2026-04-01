@@ -44,8 +44,33 @@ const CanvasRenderer = {
     // Set up event listeners
     this.setupEventListeners();
     
+    // Set initial canvas size
+    this.resizeCanvas();
+    
+    // Handle window resize
+    window.addEventListener('resize', () => this.resizeCanvas());
+    
     // Start render loop
     this.startRenderLoop();
+  },
+
+  // Resize canvas to fill container
+  resizeCanvas() {
+    const container = this.canvas.parentElement;
+    const rect = container.getBoundingClientRect();
+    
+    // Set canvas display size to fill container
+    this.canvas.width = rect.width * window.devicePixelRatio;
+    this.canvas.height = rect.height * window.devicePixelRatio;
+    this.canvas.style.width = rect.width + 'px';
+    this.canvas.style.height = rect.height + 'px';
+    
+    // Scale context for high DPI
+    this.ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+    
+    // Store actual display dimensions (not multiplied by DPR)
+    this.displayWidth = rect.width;
+    this.displayHeight = rect.height;
   },
 
   // Set up event listeners for pan and zoom
@@ -301,11 +326,21 @@ const CanvasRenderer = {
   // Get coordinates from screen position
   getCanvasCoords(screenX, screenY) {
     const rect = this.canvas.getBoundingClientRect();
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    const canvasX = screenX - rect.left;
+    const canvasY = screenY - rect.top;
     
-    const x = Math.floor((screenX - rect.left - centerX) / this.scale + centerX - this.offsetX);
-    const y = Math.floor((screenY - rect.top - centerY) / this.scale + centerY - this.offsetY);
+    // Recalculate the same way as render loop
+    const minDimension = Math.min(this.displayWidth, this.displayHeight);
+    const basePixelSize = minDimension / 256;
+    const pixelSize = basePixelSize * this.scale;
+    const totalCanvasWidth = 256 * pixelSize;
+    const totalCanvasHeight = 256 * pixelSize;
+    const startX = (this.displayWidth - totalCanvasWidth) / 2 + this.offsetX;
+    const startY = (this.displayHeight - totalCanvasHeight) / 2 + this.offsetY;
+    
+    // Convert screen coords to pixel coords
+    const x = Math.floor((canvasX - startX) / pixelSize);
+    const y = Math.floor((canvasY - startY) / pixelSize);
     
     return { x, y };
   },
@@ -334,22 +369,30 @@ const CanvasRenderer = {
       }
       
       // Clear canvas
-      this.ctx.fillStyle = '#1a1a1a';
-      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = '#0a0a0a';
+      this.ctx.fillRect(0, 0, this.displayWidth, this.displayHeight);
       
-      // Calculate centered position
-      const canvasSize = Math.min(this.canvas.width, this.canvas.height) * 0.8;
-      const scaledSize = canvasSize * this.scale;
-      const startX = (this.canvas.width - scaledSize) / 2 + this.offsetX;
-      const startY = (this.canvas.height - scaledSize) / 2 + this.offsetY;
+      // Calculate how many pixels fit in the display
+      // We want the 256x256 canvas to fill the available space at scale 1
+      const minDimension = Math.min(this.displayWidth, this.displayHeight);
+      const basePixelSize = minDimension / 256;
+      const pixelSize = basePixelSize * this.scale;
+      
+      // Calculate total canvas size at current scale
+      const totalCanvasWidth = 256 * pixelSize;
+      const totalCanvasHeight = 256 * pixelSize;
+      
+      // Center the canvas with offset
+      const startX = (this.displayWidth - totalCanvasWidth) / 2 + this.offsetX;
+      const startY = (this.displayHeight - totalCanvasHeight) / 2 + this.offsetY;
       
       // Draw offscreen canvas scaled
       this.ctx.imageSmoothingEnabled = false; // Keep pixels sharp
-      this.ctx.drawImage(this.offscreenCanvas, startX, startY, scaledSize, scaledSize);
+      this.ctx.drawImage(this.offscreenCanvas, startX, startY, totalCanvasWidth, totalCanvasHeight);
       
       // Draw grid at high zoom levels
       if (this.scale > 5) {
-        this.drawGrid(startX, startY, scaledSize);
+        this.drawGrid(startX, startY, totalCanvasWidth);
       }
       
       requestAnimationFrame(render);
