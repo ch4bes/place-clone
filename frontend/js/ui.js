@@ -153,11 +153,13 @@ const UI = {
   setupActivityFeed() {
     const toggleBtn = document.getElementById('toggle-activity-btn');
     const feed = document.getElementById('activity-feed');
+    const appContainer = document.getElementById('app');
     let isExpanded = true;
 
     toggleBtn.addEventListener('click', () => {
       isExpanded = !isExpanded;
       feed.classList.toggle('collapsed', !isExpanded);
+      appContainer.classList.toggle('feed-collapsed', !isExpanded);
       toggleBtn.textContent = isExpanded ? '◀' : '▶';
     });
 
@@ -249,6 +251,18 @@ const UI = {
     
     const timerText = document.getElementById('cooldown-text');
     const timerContainer = document.getElementById('cooldown-container');
+    const ringFill = document.querySelector('.cooldown-ring-fill');
+    
+    // Calculate ring offset (circumference = 2 * π * 45 ≈ 283)
+    const circumference = 283;
+    const totalCooldown = 120; // seconds
+    const progress = remainingSeconds / totalCooldown;
+    const offset = circumference * (1 - progress);
+    
+    // Update ring animation
+    if (ringFill) {
+      ringFill.style.strokeDashoffset = offset;
+    }
     
     if (remainingSeconds > 0) {
       timerText.textContent = `${remainingSeconds}s`;
@@ -256,6 +270,9 @@ const UI = {
     } else {
       timerText.textContent = 'Ready!';
       timerContainer.classList.remove('cooldown-active');
+      if (ringFill) {
+        ringFill.style.strokeDashoffset = 0;
+      }
     }
   },
 

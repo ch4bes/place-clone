@@ -291,7 +291,7 @@
 
   <script>
     // Update this with your actual Render URL after deployment
-    const BACKEND_URL = 'https://place-backend-xyz.onrender.com';
+    const BACKEND_URL = 'https://place-backend-lpwc.onrender.com';
     const PALETTE = [
       '#FFFFFF', '#E4E4E4', '#888888', '#222222',
       '#FFA7D1', '#E50000', '#E59500', '#A06A42',
@@ -315,11 +315,20 @@
           document.getElementById('loading').style.display = 'none';
           document.getElementById('stats-content').style.display = 'block';
           document.getElementById('last-updated').textContent = new Date(data.timestamp).toLocaleString();
+        } else {
+          showError('Failed to load stats: ' + (data.error || 'Unknown error'));
         }
       } catch (error) {
         console.error('Error loading stats:', error);
-        document.getElementById('loading').innerHTML = '<p>Error loading statistics. Please try again later.</p>';
+        showError('Network error - check backend connection');
       }
+    }
+
+    function showError(message) {
+      document.getElementById('loading').innerHTML = `
+        <p style="color: #E50000;">${message}</p>
+        <button onclick="loadStats()" style="margin-top: 15px; padding: 10px 20px; background: #0083C7; color: white; border: none; border-radius: 6px; cursor: pointer;">Retry</button>
+      `;
     }
 
     function renderStats(stats) {

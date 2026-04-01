@@ -102,15 +102,30 @@ html, body {
 /* App Container */
 .app-container {
   display: grid;
+  grid-template-areas:
+    "header header header"
+    "palette canvas activity"
+    "info info info";
+  grid-template-columns: 100px 1fr 280px;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr auto;
   height: 100vh;
   max-height: 100vh;
 }
 
+/* Grid area assignments */
+.header { grid-area: header; }
+.palette-container { grid-area: palette; }
+.canvas-container { grid-area: canvas; }
+.activity-feed { grid-area: activity; }
+.info-panel { grid-area: info; }
+
+/* Collapsed activity feed */
+.app-container.feed-collapsed {
+  grid-template-columns: 100px 1fr 0;
+}
+
 /* Header */
 .header {
-  grid-column: 1 / -1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -335,15 +350,14 @@ html, body {
 
 /* Palette Container */
 .palette-container {
-  grid-row: 2 / 3;
   background: #111;
-  border-left: 1px solid #222;
-  padding: 10px;
+  border-right: 1px solid #222;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  min-width: 80px;
-  max-width: 100px;
+  gap: 15px;
+  width: 100px;
+  overflow-y: auto;
 }
 
 .palette-header {
@@ -417,17 +431,24 @@ html, body {
 
 /* Activity Feed */
 .activity-feed {
-  grid-row: 2 / 3;
   background: #111;
-  border-right: 1px solid #222;
-  width: 180px;
+  border-left: 1px solid #222;
+  width: 280px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: width 0.3s ease;
+  overflow: hidden;
 }
 
 .activity-feed.collapsed {
-  transform: translateX(-280px);
+  width: 0;
+  padding: 0;
+  border: none;
+}
+
+.activity-feed.collapsed .activity-header,
+.activity-feed.collapsed .activity-list {
+  display: none;
 }
 
 .activity-header {
@@ -684,7 +705,12 @@ html, body {
 /* Responsive Design */
 @media (max-width: 768px) {
   .app-container {
+    grid-template-areas:
+      "header"
+      "canvas"
+      "info";
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
   }
 
   .palette-container {
@@ -692,10 +718,11 @@ html, body {
     bottom: 0;
     left: 0;
     right: 0;
-    grid-row: auto;
-    border-left: none;
+    width: 100%;
+    height: auto;
+    max-height: 50vh;
+    border-right: none;
     border-top: 1px solid #222;
-    min-width: auto;
     transform: translateY(100%);
     transition: transform 0.3s ease;
     z-index: 1000;
@@ -708,12 +735,12 @@ html, body {
   .activity-feed {
     position: fixed;
     top: 0;
-    left: 0;
+    right: 0;
     bottom: 0;
-    grid-row: auto;
-    border-right: none;
     width: 280px;
-    transform: translateX(-100%);
+    border-left: none;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
     z-index: 1000;
   }
 
@@ -722,7 +749,7 @@ html, body {
   }
 
   .activity-feed.collapsed {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 
   .header {
@@ -757,8 +784,8 @@ html, body {
 
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .palette-container {
-    min-width: 160px;
+  .app-container {
+    grid-template-columns: 100px 1fr 240px;
   }
 
   .activity-feed {
