@@ -69,6 +69,7 @@ const UI = {
     const input = document.getElementById('username-input');
     const display = document.getElementById('username-display');
     const editBtn = document.getElementById('edit-username-btn');
+    const saveBtn = document.getElementById('save-username-btn');
 
     // Load saved username
     const savedUsername = localStorage.getItem('place_username');
@@ -76,13 +77,27 @@ const UI = {
       this.setUsername(savedUsername);
     }
 
-    // Handle input change
-    input.addEventListener('change', () => {
+    // Handle save button click
+    saveBtn?.addEventListener('click', () => {
       const value = input.value.trim();
       if (value.length >= 3) {
         this.setUsername(value);
         input.style.display = 'none';
         display.style.display = 'inline';
+        saveBtn.style.display = 'none';
+      }
+    });
+
+    // Handle Enter key
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const value = input.value.trim();
+        if (value.length >= 3) {
+          this.setUsername(value);
+          input.style.display = 'none';
+          display.style.display = 'inline';
+          saveBtn.style.display = 'none';
+        }
       }
     });
 
@@ -90,6 +105,7 @@ const UI = {
     editBtn.addEventListener('click', () => {
       input.style.display = 'inline';
       display.style.display = 'none';
+      saveBtn.style.display = 'inline';
       input.focus();
     });
 
@@ -99,6 +115,7 @@ const UI = {
         if (input.value.trim().length >= 3) {
           input.style.display = 'none';
           display.style.display = 'inline';
+          saveBtn.style.display = 'none';
         }
       }, 200);
     });

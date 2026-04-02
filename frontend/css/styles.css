@@ -195,6 +195,22 @@ html, body {
   opacity: 1;
 }
 
+.save-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+  margin-left: 4px;
+  display: none;
+}
+
+.save-btn:hover {
+  opacity: 1;
+  color: #02BE01;
+}
+
 .header-center {
   flex: 1;
   display: flex;
