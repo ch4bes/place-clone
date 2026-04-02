@@ -152,46 +152,6 @@ router.post('/', async (req, res) => {
 });
 
 /**
- * GET /api/pixel/:x/:y
- * Get pixel metadata at coordinates
- */
-router.get('/:x/:y', async (req, res) => {
-  try {
-    const { x, y } = req.params;
-    const pixelX = parseInt(x);
-    const pixelY = parseInt(y);
-
-    if (isNaN(pixelX) || isNaN(pixelY) || pixelX < 0 || pixelX >= 256 || pixelY < 0 || pixelY >= 256) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid coordinates',
-      });
-    }
-
-    const pixel = await getPixel(pixelX, pixelY);
-
-    if (!pixel) {
-      return res.json({
-        success: true,
-        pixel: null,
-        message: 'No pixel at this location',
-      });
-    }
-
-    res.json({
-      success: true,
-      pixel,
-    });
-  } catch (error) {
-    console.error('Error fetching pixel:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to fetch pixel',
-    });
-  }
-});
-
-/**
  * GET /api/pixel/cooldown/:sessionId
  * Get remaining cooldown time
  */
@@ -232,6 +192,46 @@ router.get('/cooldown/:sessionId', async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Failed to check cooldown',
+    });
+  }
+});
+
+/**
+ * GET /api/pixel/:x/:y
+ * Get pixel metadata at coordinates
+ */
+router.get('/:x/:y', async (req, res) => {
+  try {
+    const { x, y } = req.params;
+    const pixelX = parseInt(x);
+    const pixelY = parseInt(y);
+
+    if (isNaN(pixelX) || isNaN(pixelY) || pixelX < 0 || pixelX >= 256 || pixelY < 0 || pixelY >= 256) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid coordinates',
+      });
+    }
+
+    const pixel = await getPixel(pixelX, pixelY);
+
+    if (!pixel) {
+      return res.json({
+        success: true,
+        pixel: null,
+        message: 'No pixel at this location',
+      });
+    }
+
+    res.json({
+      success: true,
+      pixel,
+    });
+  } catch (error) {
+    console.error('Error fetching pixel:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch pixel',
     });
   }
 });
