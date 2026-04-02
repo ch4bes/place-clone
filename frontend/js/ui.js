@@ -256,7 +256,7 @@ const UI = {
     // Calculate ring offset (circumference = 2 * π * 45 ≈ 283)
     const circumference = 283;
     const totalCooldown = 120; // seconds
-    const progress = remainingSeconds / totalCooldown;
+    const progress = Math.max(0, Math.min(1, remainingSeconds / totalCooldown));
     const offset = circumference * (1 - progress);
     
     // Update ring animation
@@ -288,7 +288,7 @@ const UI = {
           this.cooldownEndTime = 0;
         }
       }
-    }, 100);
+    }, 1000);
   },
 
   // Set up canvas click handler
