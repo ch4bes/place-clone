@@ -63,10 +63,15 @@ router.post('/', async (req, res) => {
       });
     } else {
       // Update session with new fingerprint/behavior data
-      await updateSession(sessionId, {
+      const updateData = {
         fingerprint: fingerprint || session.fingerprint,
         behavior: behavior || session.behavior,
-      });
+      };
+      // Update username if provided and different
+      if (req.body.username && req.body.username !== session.username) {
+        updateData.username = req.body.username;
+      }
+      await updateSession(sessionId, updateData);
     }
 
     // Check if banned
