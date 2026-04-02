@@ -76,7 +76,7 @@ async function setPixel(x, y, color, sessionId, metadata) {
     ...metadata,
   });
   
-  // Add to activity feed
+  // Add to activity feed (include username from metadata)
   const activityRef = getDatabase().ref('activity/recent');
   await activityRef.push({
     x,
@@ -84,6 +84,7 @@ async function setPixel(x, y, color, sessionId, metadata) {
     color,
     sessionId,
     timestamp: Date.now(),
+    username: metadata?.username || 'Anonymous',
   });
   
   // Keep only last 100 activity items

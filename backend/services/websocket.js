@@ -36,6 +36,9 @@ function setupWebSocket(wss) {
               payload: { pixels: canvas, timestamp: Date.now() }
             }));
             
+            // Broadcast updated user count
+            broadcastUserCount();
+            
             console.log(`📡 Client subscribed: ${sessionId}`);
             break;
 
@@ -64,6 +67,8 @@ function setupWebSocket(wss) {
           clients.delete(sessionId);
         }
       }
+      // Broadcast updated user count
+      broadcastUserCount();
     });
 
     // Handle errors
@@ -87,11 +92,43 @@ function setupWebSocket(wss) {
     });
   }, 30000);
 
+  // Broadcast user count every 10 seconds
+  const userCountInterval = setInterval(() => {
+    broadcastUserCount();
+  }, 10000);
+
   wss.on('close', () => {
     clearInterval(interval);
+    clearInterval(userCountInterval);
   });
 
   console.log('✅ WebSocket server setup complete');
+}
+
+// Get total number of connected clients
+function getConnectedUserCount() {
+  let count = 0;
+  clients.forEach(clientSet => {
+    count += clientSet.size;
+  });
+  return count;
+}
+
+// Broadcast user count to all connected clients
+function broadcastUserCount() {
+  const count = getConnectedUserCount();
+  const message = JSON.stringify({
+    type: 'users:count',
+    payload: { count }
+  });
+
+  clients.forEach((clientSet) => {
+    clientSet.forEach(ws => {
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(message);
+      }
+    });
+  });
 }
 
 // Broadcast pixel placement to all connected clients
@@ -102,7 +139,7 @@ function broadcastPixelPlacement(pixelData, username) {
       x: pixelData.x,
       y: pixelData.y,
       color: pixelData.color,
-      username: username || 'Anonymous',
+      username: pixelData.username || username || 'Anonymous',
       timestamp: pixelData.timestamp
     }
   });
@@ -154,4 +191,5 @@ module.exports = {
   broadcastPixelPlacement,
   sendCooldownUpdate,
   broadcastError,
+  getConnectedUserCount,
 };

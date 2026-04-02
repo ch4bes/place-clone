@@ -111,6 +111,12 @@ const API = {
         // Keep-alive response
         break;
 
+      case 'users:count':
+        if (this.onUserCountUpdate) {
+          this.onUserCountUpdate(data.payload);
+        }
+        break;
+
       default:
         console.warn('Unknown WebSocket message type:', data.type);
     }
@@ -121,6 +127,7 @@ const API = {
   onPixelPlaced: null,
   onCooldownUpdate: null,
   onError: null,
+  onUserCountUpdate: null,
 
   // REST API: Get full canvas
   async getCanvas() {

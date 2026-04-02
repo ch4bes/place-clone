@@ -132,6 +132,10 @@ const App = {
       console.error('WebSocket error:', payload);
       UI.showToast(payload.message, 'error');
     };
+
+    API.onUserCountUpdate = (payload) => {
+      document.getElementById('active-users-count').textContent = payload.count;
+    };
   },
 
   // Load canvas data from server
@@ -264,10 +268,3 @@ window.addEventListener('beforeunload', () => {
   BehaviorTracker.stop();
   API.close();
 });
-
-// Service Worker registration (for PWA support, optional)
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js').catch(() => {
-    // Service worker registration failed (optional feature)
-  });
-}

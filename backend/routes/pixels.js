@@ -113,6 +113,7 @@ router.post('/', async (req, res) => {
 
     // Place pixel
     const pixelData = await setPixel(x, y, color, sessionId, {
+      username: req.body.username || session.username || 'Anonymous',
       botScore: botAnalysis.score,
       timeToPlace: behavior?.clickPrecision?.[behavior.clickPrecision.length - 1] || 0,
       mouseDistance: behavior?.mouseMovements || 0,
