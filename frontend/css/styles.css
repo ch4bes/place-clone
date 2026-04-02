@@ -468,6 +468,20 @@ html, body {
   display: none;
 }
 
+.toggle-activity-btn {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 6px 10px;
+  transition: color 0.2s;
+}
+
+.toggle-activity-btn:hover {
+  color: #fff;
+}
+
 .activity-header {
   display: flex;
   justify-content: space-between;
