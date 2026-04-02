@@ -464,7 +464,6 @@ html, body {
   border: none;
 }
 
-.activity-feed.collapsed .activity-header,
 .activity-feed.collapsed .activity-list {
   display: none;
 }
