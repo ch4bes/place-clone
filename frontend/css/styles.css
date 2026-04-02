@@ -477,21 +477,23 @@ html, body {
   border-bottom: 1px solid #222;
 }
 
-.activity-header h3 {
-  font-size: 14px;
-  font-weight: bold;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.activity-toggle-container {
+  position: absolute;
+  left: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
 }
 
 .toggle-btn {
-  background: none;
-  border: none;
+  background: #1a1a1a;
+  border: 1px solid #333;
   color: #888;
   cursor: pointer;
   font-size: 16px;
   transition: color 0.2s;
+  padding: 8px 4px;
+  border-radius: 4px 0 0 4px;
 }
 
 .toggle-btn:hover {
