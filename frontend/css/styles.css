@@ -478,11 +478,16 @@ html, body {
 }
 
 .activity-toggle-container {
-  position: absolute;
-  left: -20px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
+  display: none;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #222;
+  position: relative;
 }
 
 .toggle-btn {
@@ -492,8 +497,8 @@ html, body {
   cursor: pointer;
   font-size: 16px;
   transition: color 0.2s;
-  padding: 8px 4px;
-  border-radius: 4px 0 0 4px;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .toggle-btn:hover {
