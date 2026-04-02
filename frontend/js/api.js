@@ -3,11 +3,9 @@
  * Handles communication with backend server
  */
 
-const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
 const CONFIG = {
-  BACKEND_URL: isLocalhost ? 'http://localhost:3000' : 'https://place-backend-lpwc.onrender.com',
-  WS_URL: isLocalhost ? 'ws://localhost:3000/ws' : 'wss://place-backend-lpwc.onrender.com/ws',
+  BACKEND_URL: 'https://place-backend-lpwc.onrender.com',
+  WS_URL: 'wss://place-backend-lpwc.onrender.com/ws',
   CANVAS_SIZE: 256,
   COOLDOWN_SECONDS: 120,
   ACTIVITY_FEED_DESKTOP: 30,
