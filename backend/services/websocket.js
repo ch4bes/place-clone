@@ -31,9 +31,10 @@ function setupWebSocket(wss) {
             
             // Send full canvas sync
             const canvas = await getCanvas();
+            const pixels = Object.values(canvas);
             ws.send(JSON.stringify({
               type: 'canvas:sync',
-              payload: { pixels: canvas, timestamp: Date.now() }
+              payload: { pixels, timestamp: Date.now() }
             }));
             
             // Broadcast updated user count
